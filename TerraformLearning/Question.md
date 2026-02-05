@@ -13,3 +13,5 @@ many can access this or ther will be only one handle that beacuse it is about th
 
 Senario
 1q -> if some one make changes the infra manually in cloude provider how do u manage terrafrom
+How do you pass environment-specific values?
+How do you prevent prod from accidental deletion?

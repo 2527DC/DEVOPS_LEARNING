@@ -1,0 +1,5 @@
+Instace_name     = "tf-ec2-instance"
+AMI              = "ami-087d1c9a513324697"
+Instance_type    = "t2.micro"
+tf_aws_instace_region = "ap-south-1"
+key_name  = "practice"

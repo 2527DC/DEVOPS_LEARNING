@@ -32,3 +32,10 @@ senario
 
 discription
 senario
+
+### terraform taint <resource_name>
+
+Meaning:
+It marks a resource as “tainted” in Terraform’s state.
+
+“Tainted” means Terraform will destroy and recreate this resource on the next terraform apply.
