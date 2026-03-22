@@ -1,0 +1,35 @@
+# Terraform Configuration Variables
+# Copy this file to terraform.tfvars and update values as needed
+
+project_name = "aws-terraform-ai"
+environment  = "dev"
+aws_region   = "us-east-1"
+
+vpc_cidr = "10.0.0.0/16"
+
+public_subnet_cidrs = [
+  "10.0.1.0/24",
+  "10.0.2.0/24"
+]
+
+private_subnet_cidrs = [
+  "10.0.10.0/24",
+  "10.0.20.0/24"
+]
+
+availability_zones = [
+  "us-east-1a",
+  "us-east-1b"
+]
+
+instance_type = "t3.micro"
+key_pair_name = ""  # Set your key pair name here
+ami_id        = ""  # Leave empty to use latest Amazon Linux 2
+
+tags = {
+  Project     = "AWS Terraform AI"
+  ManagedBy   = "Terraform"
+  Environment = "dev"
+  Owner       = "YourName"
+  CostCenter  = "Engineering"
+}

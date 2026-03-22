@@ -1,0 +1,141 @@
+resource "aws_subnet" "public" {
+  count = length(var.public_subnet_cidrs)
+
+  vpc_id                  = var.vpc_id
+  cidr_block              = var.public_subnet_cidrs[count.index]
+  availability_zone       = var.availability_zones[count.index]
+  map_public_ip_on_launch = true
+
+  tags = merge(var.tags, {
+    Name = "${var.project_name}-public-subnet-${count.index + 1}-${var.environment}"
+    Type = "Public"
+  })
+}
+
+resource "aws_subnet" "private" {
+  count = length(var.private_subnet_cidrs)
+
+  vpc_id            = var.vpc_id
+  cidr_block        = var.private_subnet_cidrs[count.index]
+  availability_zone = var.availability_zones[count.index]
+
+  tags = merge(var.tags, {
+    Name = "${var.project_name}-private-subnet-${count.index + 1}-${var.environment}"
+    Type = "Private"
+  })
+}
+
+resource "aws_route_table" "public" {
+  vpc_id = var.vpc_id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = var.internet_gateway_id
+  }
+
+  tags = merge(var.tags, {
+    Name = "${var.project_name}-public-rt-${var.environment}"
+  })
+}
+
+resource "aws_route_table" "private" {
+  vpc_id = var.vpc_id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.main.id
+  }
+
+  tags = merge(var.tags, {
+    Name = "${var.project_name}-private-rt-${var.environment}"
+  })
+}
+
+resource "aws_route_table_association" "public" {
+  count = length(aws_subnet.public)
+
+  subnet_id      = aws_subnet.public[count.index].id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "private" {
+  count = length(aws_subnet.private)
+
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_network_acl" "public" {
+  vpc_id     = var.vpc_id
+  subnet_ids = aws_subnet.public[*].id
+
+  egress {
+    rule_no    = 100
+    protocol   = "-1"
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+  }
+
+  ingress {
+    rule_no    = 100
+    protocol   = "-1"
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+  }
+
+  tags = merge(var.tags, {
+    Name = "${var.project_name}-public-nacl-${var.environment}"
+  })
+}
+
+resource "aws_network_acl" "private" {
+  vpc_id     = var.vpc_id
+  subnet_ids = aws_subnet.private[*].id
+
+  egress {
+    rule_no    = 100
+    protocol   = "-1"
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+  }
+
+  ingress {
+    rule_no    = 100
+    protocol   = "-1"
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+  }
+
+  tags = merge(var.tags, {
+    Name = "${var.project_name}-private-nacl-${var.environment}"
+  })
+}
+
+resource "aws_eip" "nat" {
+  domain = "vpc"
+
+  tags = merge(var.tags, {
+    Name = "${var.project_name}-nat-eip-${var.environment}"
+  })
+
+  depends_on = [var.internet_gateway_id]
+}
+
+resource "aws_nat_gateway" "main" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public[0].id
+
+  tags = merge(var.tags, {
+    Name = "${var.project_name}-nat-${var.environment}"
+  })
+
+  depends_on = [var.internet_gateway_id]
+}
