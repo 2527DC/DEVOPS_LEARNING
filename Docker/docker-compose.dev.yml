@@ -1,0 +1,47 @@
+
+ # this is the composer file for development  it is used to build and run the container 
+ #  from the local images  
+
+services:
+  web:
+    build:
+      context: ./path/to/project
+      dockerfile: Dockerfile
+      target: ${BUILD_STAGE:-dev}
+    image: web-${BUILD_STAGE:-dev}
+    container_name: web-${BUILD_STAGE:-dev}-container
+    env_file: ./path/to/.env
+    ports:
+      - "9000:9000"
+    depends_on:
+      - backend
+      - database
+
+  backend:
+    build:
+      context: ./path/to/backend
+      dockerfile: Dockerfile
+      target: ${BUILD_STAGE:-dev}
+    image: backend-${BUILD_STAGE:-dev}
+    container_name: backend-${BUILD_STAGE:-dev}-container
+    env_file: ./path/to/.env
+    depends_on:
+      - database
+    ports:
+      - "8000:8000"
+
+  database:
+    image: mysql:8.0
+    container_name: database-${BUILD_STAGE:-dev}-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "5373:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

@@ -1,0 +1,27 @@
+# composer file to just buid the images 
+
+
+service:
+  
+  web:
+    build:
+      context: path of the docker file 
+      dockerfike: file name of the doceker usually 
+      target: staging name 
+      image: imagename 
+     
+      
+  backend:
+    build:
+      context: path of the docker file 
+      dockerfike: file name of the doceker usually 
+      target: staging name 
+      image: imagename
+
+  database:
+    build:
+      context: path of the docker file 
+      dockerfike: file name of the doceker usually 
+      target: staging name 
+      image: imagename
+
