@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend-pod
+  namespace: dev
+  labels:
+    app: backend
+spec:
+  resource:
+    request: 500m cpu
+    limit: 1cpu
+    resourceMemory: 200mb
+    resourceMemorylimit: 500mb
+
+  initContainers:
+    - name: database-migration
+      image: user-service:latest
+      imagePullPolicy: Never
+      command: ["sh", "-c"]
+      args: ["npx prisma migrate deploy"]
+      envFrom:
+        - configMapRef:
+            name: user-service-config
+  containers:
+    - name: user-service-local
+      image: user-service:latest
+      imagePullPolicy: Never
+      ports:
+        - containerPort: 4000
+      envFrom:
+        - configMapRef:
+            name: user-service-config
