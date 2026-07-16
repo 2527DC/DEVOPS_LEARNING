@@ -1,0 +1,4 @@
+locate
+updatedb
+find
+grep
