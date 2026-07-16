@@ -1,0 +1,36 @@
+IPV4 has 4 class
+Class A = 0-127    default subnent - >  255.0.0.0
+class B = 128 - 191  default subnent - >  255.255.0.0
+Class C = 192 - 223  Default Subnet Mask: 255.255.255.0
+class D = 224 - 239  multicat - vidio striming and etc 
+class E = 240 - 255  reserved for researches 
+
+note : the class D and E didnt hade any subnenting 
+
+in the previous days the classfull state of networing was used where it had forced fixed sizes:
+where Real-world problem
+
+A company needed 1,000 IPs:
+
+Class C → too small
+
+Class B → 64,000 IPs wasted
+
+💥 Result: Massive IP wastage
+Another big issue: routing tables
+
+Each Class C network had to be routed separately
+
+Internet routers became overloaded
+
+Conclusion
+
+Classes were too rigid and wasteful, so they were removed.
+
+
+2️⃣ How CIDR fixed IP wastage
+What CIDR changed
+
+✔ No fixed classes
+✔ Any subnet size allowed
+✔ Flexible allocation
