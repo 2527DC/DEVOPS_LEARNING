@@ -1,0 +1,17 @@
+1Q ->ok there is a terraform project where it can be use to set up the infrastructure now i need to know wwho can access this like if
+many can access this or ther will be only one handle that beacuse it is about the ifra is there any change of going wrong like there is already a poroject running if i do terform destroy or make some changes by other and run wont if effet the production and tell me how is this handled if there any change in infra how is it handled who will be handling the production based terrafom code is it pushed to any vs or how is it handled
+
+2Q -> what is state locking and locking mecanisam
+3Q -> What is the use of the state file in terraform
+4Q -> what if the effect if the terraform state file is not persent
+5Q -> what are the drawback of the State file in terraform
+6Q -> How can the Terraform drawbacks be handled
+7Q -> What is the effect of VS version contros system in terraform
+8Q -> How to hanel the terrafrom if there is already a infra in cloud provider and u need to manage that existing infra from the terraform (ie migration )
+9Q -> What is drift dettuction
+10q -> what is terafrom refresh
+
+Senario
+1q -> if some one make changes the infra manually in cloude provider how do u manage terrafrom
+How do you pass environment-specific values?
+How do you prevent prod from accidental deletion?
