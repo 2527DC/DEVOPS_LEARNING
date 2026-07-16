@@ -1,0 +1,132 @@
+Networking Topics for DevOps & System Design
+
+1. Networking Fundamentals
+
+-   OSI Model
+-   TCP/IP Model
+-   IP Addressing (IPv4/IPv6)
+-   CIDR Notation
+-   Subnetting
+-   Public vs Private IPs
+-   MAC Address
+-   Ports & Protocols (TCP, UDP, ICMP)
+
+2. Routing & Switching
+
+-   Routers
+-   Switches
+-   Routing Tables
+-   Static vs Dynamic Routing
+-   NAT & PAT
+
+3. DNS
+
+-   DNS Resolution
+-   A, AAAA, CNAME, MX, TXT, NS Records
+-   TTL
+-   Reverse DNS
+
+4. HTTP & Web
+
+-   HTTP/HTTPS
+-   SSL/TLS
+-   Certificates
+-   REST APIs
+-   WebSockets
+-   HTTP Methods & Status Codes
+
+5. Firewalls & Security
+
+-   Security Groups
+-   NACLs
+-   Firewalls
+-   VPN
+-   Bastion Hosts
+-   Zero Trust Basics
+
+6. Cloud Networking (AWS/Azure/GCP)
+
+-   VPC/VNet
+-   Public & Private Subnets
+-   Internet Gateway
+-   NAT Gateway
+-   Route Tables
+-   VPC Peering
+-   Transit Gateway
+-   PrivateLink / Endpoints
+
+7. Load Balancing
+
+-   L4 vs L7
+-   Reverse Proxy
+-   ALB
+-   NLB
+-   Health Checks
+-   Sticky Sessions
+
+8. Containers & Kubernetes Networking
+
+-   Docker Networking
+-   Bridge, Host, Overlay
+-   Kubernetes CNI
+-   Services
+-   Ingress
+-   Network Policies
+
+9. Observability
+
+-   Ping
+-   Traceroute
+-   nslookup / dig
+-   curl
+-   netstat / ss
+-   tcpdump
+-   Wireshark
+
+10. CDN & Caching
+
+-   CDN
+-   Edge Locations
+-   Cache Headers
+-   Cache Invalidation
+
+11. Messaging
+
+-   Message Queues
+-   Pub/Sub
+-   Kafka Basics
+-   RabbitMQ Basics
+
+12. High Availability
+
+-   Failover
+-   Redundancy
+-   Multi-AZ
+-   Disaster Recovery
+-   DNS Failover
+
+13. Performance
+
+-   Latency
+-   Throughput
+-   Bandwidth
+-   Packet Loss
+-   MTU
+
+14. DevOps-Specific
+
+-   Terraform Networking Resources
+-   Kubernetes Networking
+-   Service Mesh Basics
+-   CI/CD Connectivity
+-   Reverse Proxies (NGINX)
+-   API Gateways
+
+15. System Design Networking
+
+-   CAP Theorem
+-   Horizontal vs Vertical Scaling
+-   Stateless vs Stateful Services
+-   Consistent Hashing
+-   Load Distribution
+-   Geo Routing
