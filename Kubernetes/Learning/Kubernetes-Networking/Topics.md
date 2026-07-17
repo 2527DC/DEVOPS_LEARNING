@@ -1,18 +1,30 @@
 # Kubernetes Networking
 
 1. Kubernetes Network Model
-2. Container Network Interface
-3. Cilium Overview
-4. Kubernetes Services
+2. Container Network Interface and default cni plugin   and what is the work of cni and cn plugin which is responsible for asssigning the ip for pods
+4. Kubernetes Services and its types : 
+ - cluster ip
+ - node prt 
+ - load balancer 
+ - external name 
+ - headless  
 5. Endpoints and Endpoint Slices
-6. Networking Issues & Troubleshooting
-7. Techniques
-8. Ingress Controllers & Resources
-9. External DNS & Service Mesh
-10. Security Best Practices
+6. Kube Proxy 
+8.  Ingress and Ingress Controllers & Resources
+9. Core DNS 
+10. NAT and internet gateway 
+11. Network ploicies  -> why is it use and how is it used what problem does it solves 
 
---> Intalling CNI and Configuration of it use some CNI like Cilium , Flannel
-NetworkPolicies
+# AWS-specific networking around EKS
+- VPC
+- Subnets (Public & Private)
+- Route Tables
+- Security Groups
+- Network ACLs
+- Internet Gateway
+- NAT Gateway
+- Elastic Load Balancer (ALB/NLB)
+- AWS Load Balancer Controller
 
 # Simple Learning
 

@@ -1,24 +1,14 @@
-# LOAD BALANSING
+# LOAD BALANSING Statgies
 
-## --- Statgies
-
-## Round Roubine
-
-## Sticky Sessions
-
-## PATH BASED
-
-## DOMAIN BASED
-
-## RATIO BASED
-
-## WHITE LISTING
-
-## BLACK LISTING
-
-## WAF
-
-## TLS
+- Round Roubine
+- Sticky Sessions
+- PATH BASED
+- DOMAIN BASED
+- RATIO BASED
+- WHITE LISTING
+- BLACK LISTING
+- WAF
+- TLS
 
 # ------------------------ NETWORKING ------------------------
 
