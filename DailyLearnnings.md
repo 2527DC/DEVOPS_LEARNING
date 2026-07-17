@@ -39,3 +39,4 @@ Teraform
    - Nat 
    - internet gateway 
 
+ -> why cant    we use the serverless architecture deployment for piston type apliction ( clue : pist uses previlage mode as true )
