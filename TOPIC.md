@@ -9,4 +9,10 @@
 7. Monitoring
 8. Networking
 
+# Development Topic
+1. Kafka
+2. Mongo Db 
+3. TypeScript 
+
 learn about the docker in docker  isolation  where previlage is true 
+

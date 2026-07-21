@@ -40,3 +40,18 @@ Teraform
    - internet gateway 
 
  -> why cant    we use the serverless architecture deployment for piston type apliction ( clue : pist uses previlage mode as true )
+
+18-7-26
+
+- learnt the difference between the interface and the abstraction 
+   - what type of acces modifier can be used on the fileds an dthe methods 
+   - in the interface we can only have public , static , final for the variable
+   
+- why did interface got interduced while we had abstraction 
+- can the static method be overriden 
+- got to know the shadowing concept in java  hapens while using the final keyword 
+- learnt  why this keyworkds used transite and volatile 
+- learnt  how the this keyword in the java script work 
+- how the arrow function in js  and the this behavious 
+- behaviour or  using of variable in the class level scope 
+

@@ -1,0 +1,1 @@
+ Using the access modifiers the encapsulation is and data manupilation is performent using the. public  getter and setter  methos is this correct 
