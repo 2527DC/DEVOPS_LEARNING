@@ -1,0 +1,3 @@
+While desigining teh databse for a project first we need to get the  requirement and the related  relations and after that deciding the datatype is main thing befor desiding the datatyps the developer  or  see that weather the proect will it requre the databse shift like mysql and posgresql or other database   before it type of dtabse hs to be decided whether RDBMS or NOSQl is needed to the aplication 
+
+need to know the difference between the  real ( float ) , double presission (double ) must not be used in the accounting   based  tables and only  the numberic  should be used

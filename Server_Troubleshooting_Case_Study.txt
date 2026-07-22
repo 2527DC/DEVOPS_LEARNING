@@ -1,0 +1,389 @@
+================================================================================
+     TECHNICAL INTERVIEW ASSIGNMENT – SERVER TROUBLESHOOTING CASE STUDY
+================================================================================
+Role      : Technical Support Engineer
+Access    : Root SSH access to the server
+Date      : 2026-07-22
+================================================================================
+
+
+================================================================================
+ISSUE 1 – cPanel is NOT Accessible
+================================================================================
+
+DEFAULT cPanel PORTS
+  HTTP  : 2082
+  HTTPS : 2083
+
+------------------------------------------------------------------------
+POSSIBLE ROOT CAUSES
+------------------------------------------------------------------------
+  1. cPanel / WHM service (cpanel.service) is stopped or crashed
+  2. Firewall (CSF / iptables / firewalld) is blocking port 2082 / 2083
+  3. Apache / Nginx on port 80/443 is consuming all resources and causing
+     the server to become slow/unresponsive
+  4. Server ran out of disk space (cPanel stops if /tmp or / is full)
+  5. License issue (cPanel license expired or IP mismatch)
+  6. SSL certificate problem on port 2083
+  7. The cPanel daemon (cpsrvd) has crashed
+
+------------------------------------------------------------------------
+STEP-BY-STEP TROUBLESHOOTING
+------------------------------------------------------------------------
+
+STEP 1 – Verify if the server itself is reachable
+  ping <server-ip>
+  ssh root@<server-ip>
+
+STEP 2 – Check if cPanel service is running
+  systemctl status cpanel
+  # OR
+  /usr/local/cpanel/scripts/restartsrv_cpsrvd --status
+
+STEP 3 – Check if cPanel ports are open and listening
+  netstat -tlnp | grep -E '2082|2083'
+  ss -tlnp | grep -E '2082|2083'
+
+STEP 4 – Test port connectivity from outside
+  telnet <server-ip> 2083
+  curl -kI https://<server-ip>:2083
+
+STEP 5 – Check firewall rules
+  csf -l | grep -E '2082|2083'       # CSF firewall
+  iptables -L -n | grep 2083         # iptables
+
+STEP 6 – Check disk space (cPanel stops if disk is full)
+  df -h
+  du -sh /tmp
+  du -sh /var/log
+
+STEP 7 – Check cPanel license
+  /usr/local/cpanel/cpkeyclt
+
+STEP 8 – Check cPanel error logs
+  tail -200 /usr/local/cpanel/logs/error_log
+  tail -200 /usr/local/cpanel/logs/cpsrvd-ssl_log
+  tail -200 /var/log/messages
+
+------------------------------------------------------------------------
+LOGS / CONFIG FILES TO CHECK
+------------------------------------------------------------------------
+  /usr/local/cpanel/logs/error_log
+  /usr/local/cpanel/logs/access_log
+  /usr/local/cpanel/logs/cpsrvd-ssl_log
+  /var/log/messages
+  /etc/csf/csf.conf         (firewall config)
+
+------------------------------------------------------------------------
+RESOLUTION
+------------------------------------------------------------------------
+  A. cPanel service stopped:
+       /usr/local/cpanel/scripts/restartsrv_cpsrvd
+       systemctl restart cpanel
+
+  B. Port blocked by firewall:
+       csf -a <your-ip>          # Allow specific IP
+       csf -u                    # Update CSF rules
+
+  C. Disk full:
+       find /var/log -name "*.log" -mtime +7 -delete
+       /usr/local/cpanel/scripts/clean_user_php_log
+
+  D. License expired:
+       /usr/local/cpanel/cpkeyclt
+       # Contact cPanel support if auto-renewal fails
+
+------------------------------------------------------------------------
+PREVENTIVE MEASURES
+------------------------------------------------------------------------
+  - Set up disk usage alerts at 80% threshold
+  - Configure automatic service monitoring (e.g., Monit / cPanel ChkServd)
+  - Whitelist trusted IPs in CSF to avoid accidental lockout
+  - Enable cPanel license auto-renewal
+  - Schedule weekly log rotation to prevent disk fill-up
+
+
+================================================================================
+ISSUE 2 – SnappyMail (Webmail) is NOT Working
+================================================================================
+
+DEFAULT WEBMAIL URL
+  https://<domain>/webmail
+  https://<server-ip>:2096
+
+------------------------------------------------------------------------
+POSSIBLE ROOT CAUSES
+------------------------------------------------------------------------
+  1. SnappyMail application files are corrupted or missing
+  2. Mail service (Exim / Dovecot) is down
+  3. Apache / Nginx virtual host misconfiguration
+  4. PHP version mismatch or PHP-FPM is stopped
+  5. Incorrect file permissions on webmail directory
+  6. Session/cache directory permissions issue
+  7. Port 993 (IMAP) or 995 (POP3) blocked by firewall
+  8. SSL certificate expired for the mail domain
+
+------------------------------------------------------------------------
+STEP-BY-STEP TROUBLESHOOTING
+------------------------------------------------------------------------
+
+STEP 1 – Open the webmail URL and note exact error
+  Browser → https://<domain>/webmail
+  Note: 403 Forbidden / 500 Internal Server Error / blank page
+
+STEP 2 – Check mail services (Exim & Dovecot)
+  systemctl status exim
+  systemctl status dovecot
+  # OR
+  /usr/local/cpanel/scripts/restartsrv_exim --status
+  /usr/local/cpanel/scripts/restartsrv_dovecot --status
+
+STEP 3 – Check if IMAP port is open
+  netstat -tlnp | grep -E '143|993|110|995'
+  telnet <server-ip> 993
+
+STEP 4 – Check Apache / Nginx for webmail errors
+  tail -100 /usr/local/apache/logs/error_log
+  tail -100 /var/log/nginx/error.log
+
+STEP 5 – Check PHP status
+  php -v
+  systemctl status php-fpm       # or php81-php-fpm depending on version
+
+STEP 6 – Check SnappyMail file permissions
+  ls -la /usr/local/cpanel/base/3rdparty/snappymail/
+
+STEP 7 – Check mail queue and Exim logs
+  exim -bp                          # mail queue
+  tail -100 /var/log/exim_mainlog
+  tail -100 /var/log/exim_rejectlog
+
+STEP 8 – Re-install SnappyMail via cPanel (if files corrupted)
+  Via WHM → Plugins → SnappyMail → Repair/Re-install
+
+------------------------------------------------------------------------
+LOGS / CONFIG FILES TO CHECK
+------------------------------------------------------------------------
+  /var/log/exim_mainlog
+  /var/log/exim_rejectlog
+  /var/log/dovecot.log
+  /usr/local/apache/logs/error_log
+  /usr/local/cpanel/base/3rdparty/snappymail/  (app directory)
+  /etc/dovecot/dovecot.conf
+
+------------------------------------------------------------------------
+RESOLUTION
+------------------------------------------------------------------------
+  A. Mail services down:
+       /usr/local/cpanel/scripts/restartsrv_exim
+       /usr/local/cpanel/scripts/restartsrv_dovecot
+
+  B. PHP-FPM stopped:
+       systemctl restart php-fpm
+       systemctl restart ea-php81-php-fpm   # adjust version
+
+  C. File permission issue:
+       chown -R nobody:nobody /usr/local/cpanel/base/3rdparty/snappymail/
+       chmod -R 755 /usr/local/cpanel/base/3rdparty/snappymail/
+
+  D. Firewall blocking IMAP:
+       csf -a <client-ip>
+       # OR open port 993 in CSF:
+       # Edit /etc/csf/csf.conf → TCP_IN, add 993
+       csf -r
+
+  E. SSL expired:
+       WHM → SSL/TLS → Manage SSL Hosts → Renew certificate
+       # OR use AutoSSL:
+       /usr/local/cpanel/bin/autossl_check --all
+
+------------------------------------------------------------------------
+PREVENTIVE MEASURES
+------------------------------------------------------------------------
+  - Enable AutoSSL for automatic certificate renewal
+  - Monitor mail queue size with alerts
+  - Set up Dovecot and Exim service monitoring via WHM ChkServd
+  - Keep cPanel and SnappyMail updated via WHM → Update Preferences
+
+
+================================================================================
+ISSUE 3 – Some Subdomains NOT Opening (Main Domain Works)
+================================================================================
+
+------------------------------------------------------------------------
+POSSIBLE ROOT CAUSES
+------------------------------------------------------------------------
+  1. DNS A record for subdomain is missing or points to wrong IP
+  2. Apache/Nginx virtual host config for the subdomain is broken or missing
+  3. Subdomain document root directory does not exist
+  4. SSL certificate does not cover the subdomain (HTTPS-only issue)
+  5. .htaccess rule is redirecting or blocking the subdomain
+  6. Subdomain not propagated yet (TTL/DNS propagation delay)
+  7. Wildcard DNS not set up but subdomain requires it
+  8. PHP or application error specific to that subdomain
+
+------------------------------------------------------------------------
+STEP-BY-STEP TROUBLESHOOTING
+------------------------------------------------------------------------
+
+STEP 1 – Test DNS resolution
+  nslookup sub.example.com
+  dig sub.example.com A
+  dig sub.example.com +short
+  # Expected: Server's public IP
+
+STEP 2 – Check if DNS record exists in cPanel zone file
+  cat /var/named/<example.com>.db | grep sub
+  # OR WHM → DNS Zone Manager → check for subdomain A record
+
+STEP 3 – Check Apache virtual host configuration
+  httpd -S 2>&1 | grep sub.example.com
+  grep -r "sub.example.com" /etc/apache2/conf.d/
+  grep -r "sub.example.com" /usr/local/apache/conf/userdata/
+
+STEP 4 – Verify document root exists
+  ls -la /home/<username>/public_html/sub/
+  # OR wherever the subdomain document root is set
+
+STEP 5 – Check Apache error log for the subdomain
+  tail -200 /usr/local/apache/logs/error_log | grep sub.example.com
+  tail -200 /home/<username>/logs/<subdomain-error_log>
+
+STEP 6 – Test HTTP response
+  curl -I http://sub.example.com
+  curl -Ik https://sub.example.com
+
+STEP 7 – Check SSL coverage (if HTTPS issue)
+  echo | openssl s_client -connect sub.example.com:443 2>/dev/null \
+    | openssl x509 -noout -subject -subjectAltName
+
+STEP 8 – Check .htaccess rules
+  cat /home/<username>/public_html/.htaccess
+  cat /home/<username>/public_html/sub/.htaccess
+
+STEP 9 – Verify Apache config and restart
+  apachectl configtest
+  # If syntax OK:
+  systemctl restart httpd
+  # OR
+  /usr/local/cpanel/scripts/restartsrv_apache
+
+------------------------------------------------------------------------
+LOGS / CONFIG FILES TO CHECK
+------------------------------------------------------------------------
+  /var/named/<domain>.db                         (DNS zone file)
+  /usr/local/apache/conf/httpd.conf
+  /usr/local/apache/conf/userdata/               (per-user vhost configs)
+  /usr/local/apache/logs/error_log
+  /home/<username>/logs/                         (per-domain logs)
+  /home/<username>/public_html/sub/.htaccess
+
+------------------------------------------------------------------------
+RESOLUTION
+------------------------------------------------------------------------
+  A. Missing DNS A record:
+       WHM → DNS Zone Manager → Add A record for subdomain
+       # Example zone entry:
+         sub   14400   IN   A   <server-ip>
+
+  B. Virtual host missing:
+       cPanel → Subdomains → re-create the subdomain
+       # This auto-generates the vhost config and document root
+
+  C. Document root missing:
+       mkdir -p /home/<username>/public_html/sub
+       chown <username>:<username> /home/<username>/public_html/sub
+       # Add an index file to confirm:
+       echo "Subdomain OK" > /home/<username>/public_html/sub/index.html
+
+  D. SSL not covering subdomain:
+       WHM → Manage AutoSSL → Run AutoSSL for user
+       # OR add SAN to existing certificate via Let's Encrypt
+
+  E. .htaccess issue:
+       Temporarily rename .htaccess to .htaccess.bak and test
+       mv /home/<username>/public_html/sub/.htaccess \
+          /home/<username>/public_html/sub/.htaccess.bak
+
+------------------------------------------------------------------------
+PREVENTIVE MEASURES
+------------------------------------------------------------------------
+  - Use wildcard SSL (*.example.com) to cover all subdomains automatically
+  - Set up DNS monitoring (e.g., UptimeRobot) for each subdomain
+  - Use WHM's "Sync DNS" when migrating servers
+  - Document all subdomain configurations and their document roots
+  - Set DNS TTL to a low value (300s) before making changes,
+    then restore to normal (3600s) after propagation confirms
+
+
+================================================================================
+GENERAL PREVENTIVE MEASURES (For All Issues)
+================================================================================
+
+  1. MONITORING
+     - Install server monitoring (Netdata, Zabbix, or WHM built-in)
+     - Set up email/SMS alerts for CPU > 80%, RAM > 90%, Disk > 85%
+
+  2. FIREWALL
+     - Keep CSF/ConfigServer Firewall up to date
+     - Enable Login Failure Daemon (LFD) to block brute-force attacks
+     - Whitelist known office/admin IPs
+
+  3. BACKUPS
+     - Enable cPanel JetBackup or WHM backup with daily remote storage
+     - Test restore procedures quarterly
+
+  4. UPDATES
+     - Enable automatic cPanel minor version updates (WHM → Update Preferences)
+     - Keep system packages updated: yum update -y / apt upgrade -y
+
+  5. LOG MANAGEMENT
+     - Set up log rotation for Apache, Exim, Dovecot logs
+     - Archive logs older than 30 days to prevent disk fill-up
+
+  6. DOCUMENTATION
+     - Maintain a server changelog (what was installed/changed and when)
+     - Document all custom DNS records and vhost configurations
+
+
+================================================================================
+QUICK COMMAND REFERENCE CHEAT SHEET
+================================================================================
+
+  CHECK ALL SERVICES:
+    /usr/local/cpanel/scripts/restartsrv_cpsrvd   --status
+    /usr/local/cpanel/scripts/restartsrv_apache   --status
+    /usr/local/cpanel/scripts/restartsrv_exim     --status
+    /usr/local/cpanel/scripts/restartsrv_dovecot  --status
+
+  RESTART SERVICES:
+    /usr/local/cpanel/scripts/restartsrv_cpsrvd
+    /usr/local/cpanel/scripts/restartsrv_apache
+    /usr/local/cpanel/scripts/restartsrv_exim
+    /usr/local/cpanel/scripts/restartsrv_dovecot
+
+  CHECK DISK:
+    df -h && du -sh /tmp /var/log
+
+  CHECK PORTS:
+    netstat -tlnp | grep -E '2082|2083|80|443|25|587|993|143'
+
+  CHECK FIREWALL:
+    csf -l            # list rules
+    csf -r            # restart firewall
+    csf -a <ip>       # allow IP
+
+  DNS FLUSH:
+    systemctl restart named      # BIND
+    rndc flush                   # flush DNS cache
+
+  APACHE CONFIG TEST:
+    apachectl -t
+
+  CHECK CERTIFICATE:
+    echo | openssl s_client -connect <domain>:443 2>/dev/null \
+      | openssl x509 -noout -dates
+
+================================================================================
+END OF DOCUMENT
+================================================================================

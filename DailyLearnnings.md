@@ -1,4 +1,4 @@
-16-7-26
+# 16-7-26
 Java 
 Encapsulation ,inheritence, Variables , access Modifiers , Polimorfisam ,
 --> Static , Final  keyword behaviour 
@@ -21,7 +21,7 @@ Teraform
 - create the user  with directly attaching the policy using terafrom 
 
 
-17-7-26
+# 17-7-26
 - Learnt about the kuberneties architecture , and the architecture components , the use of the components and the working an dthe comunication between the composnet and whic is resposnible foe creation of the poad and how is it createed , and the creation of container 
 - learnt abut the networking resource in the kubereneties  where it is a flat network 
 - controle plane components , worker node components 
@@ -41,7 +41,7 @@ Teraform
 
  -> why cant    we use the serverless architecture deployment for piston type apliction ( clue : pist uses previlage mode as true )
 
-18-7-26
+ # 18-7-26
 
 - learnt the difference between the interface and the abstraction 
    - what type of acces modifier can be used on the fileds an dthe methods 
@@ -55,3 +55,18 @@ Teraform
 - how the arrow function in js  and the this behavious 
 - behaviour or  using of variable in the class level scope 
 
+# 21-7-26
+
+- learnt the  left  joins , right joins and also got to know about  that we dont need the primay or forigin keys  we can just compare  if they have same column type ie datatype 
+- Q what if we want to compare  the non datatype what approch should be followed 
+- learnt  using the ON clause  
+-  learnt the inner joins and  different between the inner joins and the left or right joins 
+- lernt about the full joint were it  will return the both the matchedd and unmatched condition row data form  bot the table 
+
+
+# 22-7-26 
+
+learnt datatype where with the categories of numerics ,initger , small intiger , bigint , numberic for decimal values , real , double presission 
+- learnt why the float which is single pression  where in pg we use real as the datatype  and the double pression  should not be used in the  accounting where we use numberic data type 
+- got to kow the filters and query like got ot know how is the select and where and the groupby , having , like , Not like , between , not null , IS NULL  ,order by 
+- learnt the cross join and self joins 
