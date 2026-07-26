@@ -9,9 +9,9 @@ These topics are **mandatory**. You will use them daily in Spring Boot, and inte
 
 ### 1. Object-Oriented Programming (OOPs)
 Spring Boot is built entirely on OOP principles.
-- [ ] **Interfaces**: Vital because Spring uses interface-driven programming (e.g., Spring Data JPA `JpaRepository`, Service interfaces).
-- [ ] **Polymorphism & Abstraction**: Spring's Dependency Injection (DI) injects interface implementations dynamically at runtime.
-- [ ] **Encapsulation**: Used in creating Beans, DTOs, and Entity classes (private fields with getters/setters).
+- [X] **Interfaces**: Vital because Spring uses interface-driven programming (e.g., Spring Data JPA `JpaRepository`, Service interfaces).
+- [X] **Polymorphism & Abstraction**: Spring's Dependency Injection (DI) injects interface implementations dynamically at runtime.
+- [X] **Encapsulation**: Used in creating Beans, DTOs, and Entity classes (private fields with getters/setters).
 
 ### 2. Java 8+ Features (Modern Java)
 Modern Spring Boot (especially Spring Boot 3.x, which requires Java 17+) relies heavily on these features.
@@ -45,24 +45,3 @@ Critical for building robust REST APIs.
 
 ---
 
-## ❌ Non-Essential / Low-Priority Java Concepts
-These topics are either abstracted by Spring Boot or rarely used in backend web development. You can safely skip them for Spring Boot-specific interviews.
-
-### 1. JVM Internals (Deep-dive)
-- [ ] **GC Algorithms (ZGC, G1GC)**: Handled by DevOps or platform defaults. Only useful for high-scale performance tuning.
-- [ ] **Classloader Hierarchy**: Spring Boot's fat jar loader manages this automatically.
-- [ ] **Memory Segments (Eden/Survivor spaces)**: Less relevant for daily coding, though basic stack vs heap memory is good to know.
-
-### 2. File I/O & Serialization (Low-level)
-- [ ] **JDK Serialization (`Serializable` & `serialVersionUID`)**: Spring Boot uses Jackson to serialize objects directly to JSON over HTTP. Raw JDK serialization is rarely used.
-- [ ] **Byte/Character Streams (FileInputStream/Writer)**: Spring Boot handles file uploads/downloads via `MultipartFile` and abstract resources, hiding low-level stream handling.
-
-### 3. Low-level Concurrency
-- [ ] **`wait()`, `notify()`, `notifyAll()`**: Abstracted by Spring's asynchronous processing (`@Async`, `@Scheduled`) and reactive programming (Spring WebFlux). You rarely write low-level thread control.
-- [ ] **Custom Thread Pools**: Spring provides `TaskExecutor` configurations, so you don't manually manage thread pools.
-
-### 4. Low-level JDBC
-- [ ] **Writing raw SQL connections, Statements, and ResultSets**: Spring Boot uses Spring Data JPA / Hibernate, which abstracts JDBC. You only need to know high-level ORM concepts.
-
-### 5. Desktop GUI Libraries
-- [ ] **AWT, Swing, JavaFX**: Completely useless for backend server development in Spring Boot.

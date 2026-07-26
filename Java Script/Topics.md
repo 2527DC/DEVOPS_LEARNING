@@ -1,88 +1,79 @@
-# JavaScript Interview Preparation: Core & Advanced Topics
+# JavaScript Interview Topics
 
-A comprehensive checklist of JavaScript concepts categorized for technical interviews, spanning from foundational concepts to advanced runtime mechanics.
+A concise, well‑structured checklist of core and advanced JavaScript concepts that are frequently asked in technical interviews.
 
----
+## 1. Fundamental Concepts
+- **Data Types** – Primitive types (String, Number, Boolean, Null, Undefined, Symbol, BigInt) and reference types (Object, Array, Function).
+- **Execution Model** – Call stack, event loop, micro‑tasks vs. macro‑tasks, and how asynchronous code is scheduled.
+- **Variables** – `var`, `let`, `const`; hoisting behavior; Temporal Dead Zone (TDZ).
 
-## 📌 1. Basic / Fundamental Topics
-These form the bedrock of JavaScript. Interviewers expect you to know these inside out without hesitation.
+## 2. Functions
+- **Function Declaration vs. Function Expression** – hoisting differences and when each is evaluated.
+- **Arrow Functions** – lexical `this`, no own `arguments` object, concise syntax.
+- **Rest Parameters** – gather remaining arguments into an array.
+  ```js
+  function sum(...numbers) {
+    return numbers.reduce((a, b) => a + b, 0);
+  }
+  ```
+- **Spread Operator** – expand an iterable into individual elements or create shallow copies of arrays/objects.
+  ```js
+  const originalUser = { id: 1, name: "Chethan", role: "Developer" };
+  const updatedUser = { ...originalUser, role: "Team Lead" };
+  console.log(updatedUser); // { id: 1, name: "Chethan", role: "Team Lead" }
+  console.log(originalUser.role); // "Developer" (original unchanged)
+  ```
 
-### A. Syntax & Language Fundamentals
-- [ ] **Variables & Scope:** `var` vs `let` vs `const`, function scope vs block scope, hoisting, temporal dead zone (TDZ).
-- [ ] **Data Types:**
-  - Primitives (String, Number, Boolean, Null, Undefined, Symbol, BigInt).
-  - Objects/Reference Types (Arrays, Objects, Functions).
-  - Type Coercion (Implicit vs Explicit, `==` vs `===`).
-  - Checking types (`typeof` vs `instanceof`).
-- [ ] **Operators & Control Flow:** Nullish coalescing (`??`), Optional chaining (`?.`), short-circuit evaluation (`&&`, `||`).
+## 3. Control Flow
+- Conditional statements: `if`, `else if`, `else`, `switch`.
+- Ternary operator: `condition ? exprIfTrue : exprIfFalse`.
 
-### B. Functions & Execution
-- [ ] **Function Declarations vs Expressions:** Syntax, hoisting differences.
-- [ ] **Arrow Functions:** Syntax, lack of `arguments` object, lexical binding of `this` (cannot be used as constructor functions).
-- [ ] **IIFE (Immediately Invoked Function Expressions):** Syntax, use cases (data privacy, module pattern).
-- [ ] **Parameters & Arguments:** Default parameters, rest parameters (`...rest`), spread syntax (`...spread`).
+## 4. Loops
+- Classic loops: `for`, `while`, `do…while`.
+- Collection iteration: `for…of`, `for…in`.
+- Array helpers: `map`, `filter`, `reduce`, `forEach`.
+- **`let` and `var` in loops** – block scoping with `let` vs. function scoping with `var`.
 
-### C. Data Structures (Built-in)
-- [ ] **Arrays:**
-  - Mutator methods (`push`, `pop`, `shift`, `unshift`, `splice`, `reverse`, `sort`).
-  - Accessor/Iteration methods (`map`, `filter`, `reduce`, `forEach`, `find`, `some`, `every`, `flat`).
-- [ ] **Objects:** Literal creation, property access, dynamic keys, checking key existence (`in`, `hasOwnProperty`, `Object.hasOwn`).
-- [ ] **Maps & Sets:** Differences from standard Objects and Arrays, use cases, performance benefits, WeakMap and WeakSet (garbage collection implications).
+## 5. Scope & Closures
+- Lexical scope chain and how variables are resolved.
+- Closures – functions retaining access to their outer lexical environment.
 
----
+## 6. Promises
+- **States** – pending, fulfilled, rejected.
+- Methods: `then`, `catch`, `finally`.
+- Common patterns: promise hell, promise chaining.
+- Utility methods:
+  - `Promise.all` – resolves when **all** promises resolve; rejects immediately if any reject.
+  - `Promise.allSettled` – waits for every promise to settle and returns an array describing each outcome.
+  - `Promise.race` – fulfills or rejects with the first settled promise (useful for time‑outs).
+  - `Promise.any` – fulfills with the first fulfilled promise; rejects with `AggregateError` if all reject.
 
-## 🚀 2. Intermediate / Core Topics
-These are the most common ground for screening questions and hands-on coding exercises.
+## 7. Async / Await
+- Syntactic sugar over promises.
+- Error handling with `try…catch`.
 
-### A. Scope, Closures & Context
-- [ ] **Lexical Scope & Scope Chain:** How JavaScript searches for variables.
-- [ ] **Closures:** Definition, lexical environment, practical applications (encapsulation/private variables, memoization, currying, module pattern).
-- [ ] **Execution Context & Call Stack:** Creation phase vs Execution phase, Global execution context, Function execution context.
-- [ ] **The `this` Keyword:** Rules of determination (implicit, explicit, default, new binding), lexical `this` in arrow functions.
-- [ ] **Call, Apply, and Bind:** Differences, usage, and creating custom polyfills for them.
+## 8. The `this` Keyword
+- Binding rules: default binding, implicit binding, explicit binding (`call`, `apply`, `bind`), `new` binding, and lexical binding in arrow functions.
 
-### B. Object-Oriented JS & Prototypes
-- [ ] **Prototype Chain & Inheritance:** Prototypical inheritance, `__proto__`, `prototype` property, prototype lookup mechanism.
-- [ ] **Constructor Functions & `new` Keyword:** What happens under the hood when `new` is invoked.
-- [ ] **Classes (ES6):** Syntax, `extends`, `super`, static methods, getters/setters, private class fields (`#privateField`).
+## 9. Timers
+- `setTimeout()` – schedule a callback after a delay.
 
-### C. Asynchronous JavaScript (The Fundamentals)
-- [ ] **Callbacks:** Synchronous vs asynchronous callbacks, callback hell.
-- [ ] **Promises:** States (pending, fulfilled, rejected), creation, chaining, error handling (`catch`, `finally`), utility methods (`Promise.all`, `Promise.allSettled`, `Promise.race`, `Promise.any`).
-- [ ] **Async/Await:** Syntactic sugar on promises, error handling with `try...catch`, writing sequential vs parallel async code.
+## 10. ES6 Features
+- Spread and Rest (covered in the Functions section).
+- Arrow functions – concise syntax and lexical `this`.
+- Ternary operator – inline conditional expressions.
+- Destructuring of arrays and objects.
+  ```js
+  const [first, ...rest] = [1, 2, 3, 4];
+  const { name, ...others } = { name: "Alice", age: 30, city: "NY" };
+  ```
 
----
-
-## 🔥 3. Advanced / Expert Topics
-These distinguish senior engineers. Deep knowledge here is tested in architecture and system design interviews.
-
-### A. The JavaScript Runtime & Event Loop
-- [ ] **Single-threaded nature:** How JS handles concurrency despite being single-threaded.
-- [ ] **Event Loop Architecture:** Call Stack, Web APIs/Node APIs, Task Queue (Macrotask), Microtask Queue (Promises, `queueMicrotask`, `process.nextTick`).
-- [ ] **Priority of execution:** Microtasks vs Macrotasks execution order.
-
-### B. Advanced Memory & Performance
-- [ ] **Memory Management:** Garbage collection (Mark-and-sweep algorithm), memory allocation.
-- [ ] **Memory Leaks:** Common causes (dangling event listeners, detached DOM nodes, closures, global variables) and how to debug/profile them.
-- [ ] **Performance Optimizations:** Debouncing vs Throttling, `requestAnimationFrame`, `requestIdleCallback`.
-
-### C. Modern JS & Metaprogramming
-- [ ] **Generators & Iterators:** `function*`, `yield`, custom iterables (`[Symbol.iterator]`).
-- [ ] **Proxies & Reflect:** Intercepting object operations, validation, reactivity patterns (e.g., Vue 3 reactive model).
-- [ ] **Modules:** ES Modules (`import`/`export`) vs CommonJS (`require`/`module.exports`), static analysis, tree-shaking.
-
-### D. Advanced Design Patterns & DOM Mechanics
-- [ ] **Design Patterns:** Singleton, Factory, Observer/Pub-Sub, Module, Decorator.
-- [ ] **Event Delegation & Bubbling:** Bubbling vs capturing phases, event delegation pattern, `event.target` vs `event.currentTarget`, preventing default behavior (`event.preventDefault()`) and stopping propagation (`event.stopPropagation()`).
-- [ ] **Polyfills & Transpilation:** Writing custom polyfills for ES6+ features (e.g., custom `Promise`, custom `Array.prototype.map`, custom `bind`).
+## 11. Object‑Oriented JavaScript (OOP)
+- **Prototype Chain** – inheritance via `[[Prototype]]`.
+- **Classes** – `class` syntax, `extends`, `super`, static methods, getters/setters, private fields (`#`).
+- **Encapsulation** – hiding internal state using closures or private class fields.
+- **Inheritance** – subclassing with `extends`.
 
 ---
 
-## 📈 4. Practice & Coding Exercises
-Interviewers will often ask you to implement these from scratch:
-1. **Debounce & Throttle** functions (with leading/trailing edge options).
-2. **Polyfills** for `Promise.all`, `Promise.allSettled`, `Array.prototype.reduce`, `Array.prototype.map`, `Array.prototype.filter`, `Function.prototype.bind`.
-3. **Deep Clone** function (handling circular references, nested objects, functions, arrays, dates, regExps).
-4. **Curry** function (supporting placeholder arguments or arbitrary parameter lengths).
-5. **Flatten Array / Object** (converting nested structures to single-level arrays/objects).
-6. **Event Emitter** class (implementing `on`, `off`, `emit`, and `once`).
+Use this checklist as a quick reference while preparing for JavaScript interviews.

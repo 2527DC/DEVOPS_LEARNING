@@ -1,0 +1,48 @@
+============================================================
+JAVASCRIPT & TYPESCRIPT INTERVIEW TOPIC MASTER LIST
+Target: 2-Year Experienced MERN Stack / AI Era Software Engineer
+============================================================
+
+1. CORE JAVASCRIPT EXECUTION & SCOPE
+   - var, let, and const (Hoisting and Temporal Dead Zone - TDZ)
+   - Scope Chain and Lexical Scope
+   - Closures (Practical use cases: Data privacy, currying, memoization)
+   - Execution Context and the Call Stack
+
+2. ASYNCHRONOUS JAVASCRIPT & RUNTIME MECHANICS
+   - Callbacks and Callback Hell
+   - Promises & Promise Chaining (Promise.all, allSettled, race, any)
+   - Async / Await mechanics
+   - The Event Loop: Call Stack, Web APIs, Microtask Queue (Promises), and Macrotask Queue (setTimeout/setInterval)
+   - Timers execution orders and threading limitations in Node.js
+
+3. FUNCTIONS & CONTEXT BINDING
+   - Function Declarations vs. Function Expressions
+   - Arrow Functions vs. Regular Functions
+   - The 'this' keyword behavior (Global, Object methods, Event listeners, Arrow lexical binding)
+   - Explicit Context Binding: call(), apply(), and bind() methods
+
+4. DATA STRUCTURES & MANIPULATION
+   - Primitive vs. Reference Types
+   - Spread and Rest Operators (...)
+   - Shallow Copy vs. Deep Copy implementation patterns
+   - Array Iteration & Performance: for, forEach, map, filter, reduce, for...of, for...in
+   - Mutation vs. Non-mutation array methods (e.g., sort vs toSorted)
+
+5. OBJECT-ORIENTED PROGRAMMING (OOP) & PROTOTYPES
+   - Prototypal Inheritance and the Prototype Chain
+   - Constructor functions and ES6 Class syntax
+   - Access Control: Modern Private fields (#) vs. Public fields
+   - Method Overriding and Polymorphism in JS
+
+6. ADVANCED PERFORMANCE & DOM CONCEPTS
+   - Event Bubbling, Event Capturing, and Event Delegation
+   - Debouncing and Throttling implementation
+   - Memory Leaks and Garbage Collection in Node.js/React (Detached DOM nodes, leftover listeners)
+
+7. TYPESCRIPT GUARDRAILS FOR THE AI ERA
+   - Basic Types, Type Inference, and Type Assertions
+   - Interfaces vs. Type Aliases
+   - Generics for reusable structures
+   - Utility Types (Partial, Pick, Omit, Record, Readonly)
+   - Discriminated Unions and Type Guards
