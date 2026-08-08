@@ -5,4 +5,11 @@
 - use this command terraform refresh 
 - use this command terraform taint 
 - use this command terraform untaint 
-- Learn or implement the Governance
+- Learn or implement the Governance 
+- String Interpulation 
+- advance cmd Taints , improt , graph ,State manipulation
+
+- List the teraform Issue and learn Debugging 
+
+- CICD With terraform 
+- Local Variables ( locals)

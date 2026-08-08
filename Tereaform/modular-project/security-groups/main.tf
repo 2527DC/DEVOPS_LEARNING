@@ -1,6 +1,3 @@
-provider "aws" {
-  region = var.region
-}
 
 resource "aws_security_group" "web-sg" {
   name        = var.web_sg_name

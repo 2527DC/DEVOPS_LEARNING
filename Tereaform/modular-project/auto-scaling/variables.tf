@@ -1,36 +1,35 @@
-variable "region" {
-    description = "enter aws region"
-    type = string
-    default = "ap-south-1"
+variable "auto_scaling_group_name" {
+  description = "Name of the autoscaling group"
+  type        = string
 }
 
-variable "ami_id" {
-  type = string
-  description = "enter ami id"
+variable "launch_template_id" {
+  description = "ID of the launch template"
+  type        = string
 }
 
-variable "instance_type" {
-  type = string
-  description = "enter instance type"
-  default = "t3.micro"
+variable "scaling_min_size" {
+  description = "Minimum size of the autoscaling group"
+  type        = number
 }
 
-variable "tag_name" {
-  type = string
-  description = "enter tag name"
+variable "scaling_max_size" {
+  description = "Maximum size of the autoscaling group"
+  type        = number
 }
 
-variable "key_name" {
-  type = string
-  description = "enter key name"
+variable "scaling_desired_capacity" {
+  description = "Desired capacity of the autoscaling group"
+  type        = number
 }
 
-variable "subnet_id" {
-  type = string
-  description = "enter subnet id"
+variable "vpc_zone_identifier" {
+  description = "List of subnet IDs to launch resources in"
+  type        = list(string)
 }
 
-variable "security_group_id" {
-  type = string
-  description = "enter security group id"
+variable "target_cpu_utilization" {
+  description = "Target average CPU utilization percentage for scaling"
+  type        = number
+  default     = 50
 }
