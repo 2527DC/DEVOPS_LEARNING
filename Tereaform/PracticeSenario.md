@@ -3,10 +3,10 @@
 
 2Q Tell me in the production or a real time aplication 
   how is the terrafrom apply command ran is it in locally by human or in the cicd 
-3 what is OIDC , SSM , SSH  need to  use this and make a practice of it 
-
-
 
 # gatthering 
 Terraform module patterns
 AWS security best practices (least privilege IAM, logging/monitoring, encryption, and secure networking).
+
+1. Practice of using the  state file to store in the s3 or dynamo db and  experience the state locking 
+2. practice the secretes  mangement and usage 

@@ -1,0 +1,1 @@
+ To tell the strretegic things for a project  which one is best for the present situation  and taking the desision and mainly the owner ship of things  where ai dont 

@@ -1,3 +1,44 @@
-version 
-jobs 
-steps 
+# Level One 
+- [x] Workflow
+- [x] Events/triggers
+- [x] Jobs
+- [x] Steps
+- [x] Actions
+- [x] Runners
+- [x] runs-on
+- [x] Environment variables
+- [x] Secrets
+- [ ] Outputs
+- [x] needs
+- [x] Conditions
+- [x] Expressions
+- [x] Matrix builds
+- [x] Artifacts
+- [x] Caching
+- [x] Reusable workflows
+- [ ] Composite actions
+- [ ] Environment protection rules
+- [ ] Service containers
+- [ ] Manual triggers
+- [ ] Schedule triggers
+- [ ] Workflow dispatch
+- [ ] Concurrency control
+- [ ] Permissions
+- [ ] Workflow timeouts
+- [ ] Job timeouts
+- [ ] Artifact retention
+- [ ] Retained GitHub Actions data
+- [ ] Dependency graph
+- [ ] Dependabot
+
+# Missing / Advanced Topics
+- [ ] Contexts (github, env, job, steps, runner)
+- [ ] GITHUB_TOKEN & API Interactions
+- [ ] OIDC (OpenID Connect) for Cloud Auth
+- [ ] Self-hosted runners
+- [ ] Deployment environments & approvals
+- [ ] Docker container actions
+- [ ] JavaScript actions
+- [ ] Creating Action inputs/outputs
+- [ ] GitHub CLI (gh) within workflows
+- [ ] Starter workflows

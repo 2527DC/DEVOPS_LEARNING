@@ -1,0 +1,139 @@
+name: Comprehensive Practice Pipeline
+
+# 1. TRIGGER DEFINITIONS
+# Practice: Define specific triggers to avoid running workflows unnecessarily.
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+  # Manual trigger for debugging or ad-hoc runs
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - production
+
+# 2. ENVIRONMENT VARIABLES
+# Practice: Use env vars for consistent values across jobs.
+env:
+  NODE_VERSION: '18.x'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+# 3. CONCURRENCY
+# Practice: Prevent parallel deployments of the same PR/branch which can cause race conditions.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ==========================================
+  # JOB 1: CODE QUALITY & LINTING
+  # ==========================================
+  lint-and-test:
+    name: Code Quality & Unit Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Practice: Cache dependencies to speed up pipeline execution time
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci # Practice: Use 'ci' instead of 'install' for deterministic builds
+
+      - name: Run Linter
+        run: npm run lint
+        continue-on-error: true # For practice: allow this to fail to see warning behavior
+
+      - name: Run Unit Tests
+        run: npm test
+
+  # ==========================================
+  # JOB 2: SECURITY SCANNING
+  # ==========================================
+  security-scan:
+    name: Security Vulnerability Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      # Simulated security scan (e.g., Trivy, Snyk, CodeQL)
+      - name: Dependency Vulnerability Check
+        run: npm audit --audit-level=high
+
+  # ==========================================
+  # JOB 3: BUILD & PACKAGE
+  # ==========================================
+  build:
+    name: Build Artifacts
+    needs: [lint-and-test, security-scan] # Practice: Define dependencies. Don't build if tests fail.
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Application
+        run: npm run build
+
+      # Practice: Store artifacts to pass between jobs or for debugging later
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: dist/ # Adjust this path based on your project structure
+          retention-days: 5 # Practice: Don't keep artifacts forever to save storage
+
+  # ==========================================
+  # JOB 4: DEPLOYMENT (Staging)
+  # ==========================================
+  deploy-staging:
+    name: Deploy to Staging
+    needs: build
+    # Practice: Only deploy on main branch or specific manual trigger
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment: staging # Practice: Use GitHub Environments for protection rules/secrets
+    
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+          
+      - name: Deploy Script Execution
+        run: |
+          echo "Simulating deployment to Staging environment..."
+          echo "Connecting to servers..."
+          echo "Deploying artifact..."
+          # Example failure case for practice: Uncomment to simulate deployment failure
+          # exit 1
+          echo "Deployment successful!"
