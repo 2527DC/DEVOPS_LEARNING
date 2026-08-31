@@ -19,3 +19,9 @@ Special Files
 | `l`    | Link (symbolic)   |
 | `s`    | Socket            |
 | `p`    | Named pipe (FIFO) |
+
+
+| Link Type  | Inode  | Path Reference   |
+| ---------- | ------ | ---------------- |
+| Hard Link  | Same   | Same file system |
+| Soft Link  | Diff   | Can cross file systems |

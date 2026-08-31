@@ -70,3 +70,7 @@ learnt datatype where with the categories of numerics ,initger , small intiger ,
 - learnt why the float which is single pression  where in pg we use real as the datatype  and the double pression  should not be used in the  accounting where we use numberic data type 
 - got to kow the filters and query like got ot know how is the select and where and the groupby , having , like , Not like , between , not null , IS NULL  ,order by 
 - learnt the cross join and self joins 
+
+
+# 25-8-26
+-   learnt about teh concurrency  what is the use of it 

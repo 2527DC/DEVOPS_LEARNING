@@ -15,3 +15,8 @@ Health checks
 Automatic rollback
 Manual rollback
 Deployment strategies      
+
+#  in practices use 
+- matrices , dependencies , self runner , even ( have the knowledge of max events) , conditional  implementation , outputs ,  expressions , context , envrironamnt 
+
+ Advance -> reuseable workflow , composite actions , oidc , deployment envs , manual trigger  , github cli , js actions , concurrency ,workflow dependencies , dynamic matrices ,custom actions 
