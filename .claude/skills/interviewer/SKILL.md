@@ -108,6 +108,44 @@ Pick the rung that matches their answer:
   theirs to find: "walk me through what the packet does after that."
 - **They named a tool** → "why that over the alternative?"
 
+### Doubt capture — collect silently, resolve in the debrief
+
+Candidates rarely ask a clean question mid-interview. They bury it inside the
+answer: *"i think it may distroy anf recreate"*, *"but i dont know what may have
+gone wrong"*, *"is it in the cicd or locally by human"*, *"may be security groups
+related to it"*.
+
+Each of those is a **real question wearing an answer's clothes.** Treat it as a
+first-class artifact of the round.
+
+During the interview:
+
+- **Never answer it.** Do not acknowledge it as a question. Stay in character.
+  If it is worth probing, turn it into your next follow-up instead.
+- **Log it verbatim** in a running list, with the question number it came from.
+
+For the debrief, convert each captured doubt into a **properly phrased question**
+— the sentence they were reaching for — and then answer it. Rewrite for grammar
+and precision without changing the meaning or inflating it into something
+smarter than they asked.
+
+```text
+Raw (their words) : "i dont know how can i make it like to match the state file
+                     just be creating the code in config it if i apply i think
+                     it may distroy anf recreate"
+
+Reframed question  : "If a resource already exists in the cloud and I write
+                     matching HCL for it, will `terraform apply` destroy and
+                     recreate it — and if not, how do I make state aware of it
+                     without touching the resource?"
+
+Answer             : <full answer in the debrief>
+```
+
+Also capture **silent doubts** — where they hedged without asking: "I think",
+"may be", "something like", "not sure but". Those mark the boundary of what they
+actually own, and that boundary is the most useful thing the round produces.
+
 ### Question shape — scenario first
 
 Every main question is a **scenario**, not a definition. Give a symptom or a
@@ -153,15 +191,68 @@ When the count is reached, or the candidate says stop / "end interview", drop
 character and say so plainly: *"That's the end of the round — here is my
 feedback."*
 
-Then give:
+Then give, in this order:
 
-- **Verdict** — Strong Hire / Hire / Lean No / No Hire at the stated
-  difficulty, one line of reasoning. Be honest; an inflated verdict makes the
-  whole exercise useless.
-- **Per question** — what was asked, what they said, what was missing, and the
-  answer a strong candidate gives. Teaching happens here.
-- **Gaps** ranked by what would actually sink a real interview.
-- **Study plan** — 3–5 concrete actions pointed at files in this repo.
+**1. Verdict** — Strong Hire / Hire / Lean No / No Hire at the stated
+difficulty, one line of reasoning. Be honest; an inflated verdict makes the
+whole exercise useless.
+
+**2. Scorecard** — a table, every question scored **0–10**, so progress is
+measurable across rounds. Score the *answer as given*, not the potential.
+
+| # | Topic | Score | Why |
+|---|-------|-------|-----|
+| Q1 | Stale state lock | 4/10 | Right instincts, could not name `force-unlock` |
+| Q2 | `count` index shifting | 1/10 | No model of resource addressing |
+
+Anchor the scale so it means the same thing every round:
+
+- **0–2** — no usable knowledge; "I don't know" or a wrong model
+- **3–4** — knows the concept exists, cannot produce mechanism or commands
+- **5–6** — correct answer, thin on *why*; would pass a screen, not an onsite
+- **7–8** — correct with mechanism and tradeoffs; solid hire signal
+- **9–10** — teaches the interviewer something; names failure modes unprompted
+
+Close the table with a **round average** and, from round two onward, the delta
+against the previous session on that topic (read it from the bank).
+
+**3. Per question** — what was asked, what they said, what was missing, and the
+answer a strong candidate gives. Teaching happens here.
+
+**4. Your doubts, answered** — every doubt captured during the round (see
+*Doubt capture*). For each: their raw words, the reframed proper question, and
+the answer. This section is often the highest-value part of the debrief because
+these are the questions they actually wanted to ask. Never skip it, and never
+merge it into the per-question section — it is separate on purpose.
+
+**5. Gaps** ranked by what would actually sink a real interview.
+
+**6. Theory vs practice split** — for each gap, label it:
+- `THEORY` — they need to read/understand it
+- `PRACTICE` — they understand it but have never done it with their hands
+- `BOTH`
+
+This label decides whether the fix is a study action or a lab, and it feeds
+`/learning-check`. Most gaps at this stage are `PRACTICE`; saying so is more
+useful than another reading list.
+
+**7. Scenario drills** — 3–5 **hands-on** exercises, not reading. Each must be
+something they can run and observe, tied to a specific gap, with a concrete
+success condition. Point at real paths in this repo.
+
+```markdown
+**Drill 1 — Watch `count` destroy your infrastructure** (fixes Q2, PRACTICE)
+In `Tereaform/modular-project/`, create 4 ECR repos with `count`. Apply.
+Delete the middle element. Run `plan` and read the output before applying.
+Then redo the whole thing with `for_each = toset(...)`.
+Success: you can state, without looking, why one plan shows 6 changes and the
+other shows 2.
+```
+
+If a drill is substantial enough to be its own lab, say so and tell them to run
+`/practice <topic>` for the full version.
+
+**8. Study plan** — 3–5 concrete actions pointed at files in this repo.
 
 ## Step 7 — Write the bank
 
@@ -175,6 +266,13 @@ already exists, append a new `## Session N` block rather than overwriting.
 
 **Difficulty:** Hard · **Questions:** 10 · **Follow-ups:** 2
 **Verdict:** Lean No — solid on architecture, thin on failure modes
+**Score:** 4.2/10 average (previous round: 3.1 — up 1.1)
+
+## Scorecard
+
+| # | Topic | Score | Why |
+|---|-------|-------|-----|
+| Q1 | Stale state lock | 4/10 | Right instincts, could not name `force-unlock` |
 
 ---
 
@@ -184,9 +282,30 @@ already exists, append a new `## Session N` block rather than overwriting.
 **Follow-ups:**
 - Q: <follow-up> -> A: <their answer>
 - Q: <follow-up> -> A: <their answer>
+**Score:** 4/10
 **Verdict:** Partial — got the what, missed the why
 **Model answer:** <what a strong candidate says>
+
+---
+
+## Doubts I raised (reframed and answered)
+
+### D1 — from Q3
+**My raw words:** "<verbatim, including the typos — this is the evidence>"
+**The question I was actually asking:** "<clean, precise rephrasing>"
+**Answer:** <full answer>
+
+---
+
+## Scenario drills assigned
+
+- [ ] **Drill 1 — <name>** (fixes Q2, PRACTICE) — <what to do> · Success: <condition>
+- [ ] **Drill 2 — <name>** (fixes Q4, BOTH) — <what to do> · Success: <condition>
 ```
+
+Leave the drill checkboxes unticked. `/learning-check` reads them to see whether
+assigned practice is actually getting done, and an unticked drill from two
+rounds ago is itself a finding.
 
 **`INTERVIEW/bank/<topic>/asked.md`** — append one row per question asked,
 including follow-ups. This is the no-repeat registry; keep it terse and
